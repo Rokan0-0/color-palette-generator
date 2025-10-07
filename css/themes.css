@@ -1,0 +1,54 @@
+/* ========================================
+   THEME STYLES
+   ======================================== */
+
+/* Light Mode Theme */
+body.light-mode {
+    --bg-primary: #f8f9fa;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #e9ecef;
+    --text-primary: #1a1a1a;
+    --text-secondary: #6c757d;
+    --text-muted: #adb5bd;
+    --border-color: rgba(99, 102, 241, 0.2);
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+body.light-mode .modal-overlay {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+body.light-mode .action-btn {
+    background: rgba(255, 255, 255, 0.7);
+}
+
+body.light-mode .action-btn:hover {
+    background: rgba(255, 255, 255, 0.9);
+}
+
+body.light-mode input[type="range"]::-webkit-slider-thumb {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Smooth theme transitions */
+body,
+.header,
+.sidebar,
+.modal-content,
+.btn,
+.select,
+.input-text,
+.code-output,
+.saved-palette,
+.accessibility-check,
+.color-stops,
+.shortcuts {
+    transition: background-color var(--transition-base),
+                color var(--transition-base),
+                border-color var(--transition-base),
+                box-shadow var(--transition-base);
+}
+
+/* Custom theme colors can be added below */

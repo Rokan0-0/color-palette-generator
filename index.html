@@ -3,348 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Color Palette Generator</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --bg-color: #0a0e27;
-            --surface-color: #151a36;
-            --text-color: #e4e6f0;
-            --text-muted: #9799b5;
-            --accent: #6366f1;
-            --success: #10b981;
-            --warning: #f59e0b;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg-color);
-            color: var(--text-color);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .header {
-            padding: 1.5rem 2rem;
-            background: var(--surface-color);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .header h1 {
-            font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .controls {
-            display: flex;
-            gap: 0.75rem;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 0.5rem 1rem;
-            background: var(--accent);
-            color: white;
-            border: none;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
-        }
-
-        select {
-            padding: 0.5rem 1rem;
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--text-color);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 0.5rem;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-
-        .palette-container {
-            flex: 1;
-            display: flex;
-            position: relative;
-        }
-
-        .color-column {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            cursor: pointer;
-            transition: flex 0.3s ease;
-        }
-
-        .color-column:hover {
-            flex: 1.1;
-        }
-
-        .color-main {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        .color-info {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            opacity: 0;
-            transition: opacity 0.2s;
-            pointer-events: none;
-        }
-
-        .color-column:hover .color-info {
-            opacity: 1;
-        }
-
-        .color-hex {
-            font-size: 1.5rem;
-            font-weight: 700;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            margin-bottom: 0.5rem;
-        }
-
-        .color-formats {
-            font-size: 0.9rem;
-            opacity: 0.9;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-        }
-
-        .lock-btn {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: rgba(0, 0, 0, 0.3);
-            border: none;
-            border-radius: 50%;
-            width: 2.5rem;
-            height: 2.5rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: all 0.2s;
-            z-index: 10;
-        }
-
-        .color-column:hover .lock-btn {
-            opacity: 1;
-        }
-
-        .lock-btn:hover {
-            background: rgba(0, 0, 0, 0.5);
-            transform: scale(1.1);
-        }
-
-        .lock-btn.locked {
-            opacity: 1;
-            background: var(--accent);
-        }
-
-        .sidebar {
-            position: fixed;
-            right: -400px;
-            top: 0;
-            width: 400px;
-            height: 100vh;
-            background: var(--surface-color);
-            box-shadow: -4px 0 20px rgba(0, 0, 0, 0.3);
-            transition: right 0.3s ease;
-            z-index: 1000;
-            overflow-y: auto;
-            padding: 2rem;
-        }
-
-        .sidebar.open {
-            right: 0;
-        }
-
-        .sidebar h2 {
-            margin-bottom: 1.5rem;
-            font-size: 1.3rem;
-        }
-
-        .sidebar-section {
-            margin-bottom: 2rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .sidebar-section h3 {
-            font-size: 1rem;
-            margin-bottom: 1rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 0.05em;
-        }
-
-        .export-btn {
-            width: 100%;
-            margin-bottom: 0.5rem;
-            justify-content: center;
-        }
-
-        .saved-palettes {
-            display: grid;
-            gap: 1rem;
-        }
-
-        .saved-palette {
-            display: flex;
-            height: 40px;
-            border-radius: 0.5rem;
-            overflow: hidden;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .saved-palette:hover {
-            transform: scale(1.02);
-        }
-
-        .saved-palette-color {
-            flex: 1;
-        }
-
-        .accessibility-check {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .contrast-pair {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-        }
-
-        .contrast-ratio {
-            font-weight: 600;
-        }
-
-        .pass {
-            color: var(--success);
-        }
-
-        .fail {
-            color: var(--warning);
-        }
-
-        .notification {
-            position: fixed;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--success);
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
-            z-index: 2000;
-        }
-
-        .notification.show {
-            opacity: 1;
-        }
-
-        .shortcuts {
-            position: fixed;
-            bottom: 1rem;
-            left: 1rem;
-            background: var(--surface-color);
-            padding: 1rem;
-            border-radius: 0.5rem;
-            font-size: 0.85rem;
-            opacity: 0.7;
-            transition: opacity 0.2s;
-        }
-
-        .shortcuts:hover {
-            opacity: 1;
-        }
-
-        .shortcut-item {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .key {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 0.1rem 0.4rem;
-            border-radius: 0.25rem;
-            font-weight: 600;
-            font-size: 0.75rem;
-        }
-
-        @media (max-width: 768px) {
-            .palette-container {
-                flex-direction: column;
-            }
-            .color-column {
-                min-height: 120px;
-            }
-            .sidebar {
-                width: 100%;
-                right: -100%;
-            }
-            .shortcuts {
-                display: none;
-            }
-        }
-    </style>
+    <title>Color Palette Generator Pro</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/themes.css">
 </head>
 <body>
-    <div class="header">
-        <h1>🎨 Color Palette Generator</h1>
+    <!-- SVG Filters for Color Blindness -->
+    <svg style="display: none;">
+        <defs>
+            <filter id="deuteranopia">
+                <feColorMatrix type="matrix" values="0.625,0.375,0,0,0 0.7,0.3,0,0,0 0,0.3,0.7,0,0 0,0,0,1,0"/>
+            </filter>
+            <filter id="protanopia">
+                <feColorMatrix type="matrix" values="0.567,0.433,0,0,0 0.558,0.442,0,0,0 0,0.242,0.758,0,0 0,0,0,1,0"/>
+            </filter>
+            <filter id="tritanopia">
+                <feColorMatrix type="matrix" values="0.95,0.05,0,0,0 0,0.433,0.567,0,0 0,0.475,0.525,0,0 0,0,0,1,0"/>
+            </filter>
+        </defs>
+    </svg>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <h1 class="logo">🎨 Palette Pro</h1>
+            <nav class="nav">
+                <a href="index.html" class="nav-link active">Palette</a>
+                <a href="gradient.html" class="nav-link">Gradient</a>
+                <a href="settings.html" class="nav-link">Settings</a>
+            </nav>
+        </div>
         <div class="controls">
-            <select id="harmonyMode">
+            <select id="harmonyMode" class="select">
                 <option value="random">Random</option>
                 <option value="monochromatic">Monochromatic</option>
                 <option value="analogous">Analogous</option>
@@ -352,364 +43,212 @@
                 <option value="triadic">Triadic</option>
                 <option value="tetradic">Tetradic</option>
             </select>
-            <button class="btn" id="generateBtn">Generate</button>
-            <button class="btn btn-secondary" id="saveBtn">Save</button>
-            <button class="btn btn-secondary" id="exportBtn">Export</button>
+            <button class="btn btn-primary" id="generateBtn">
+                <span>🔄</span> Generate
+            </button>
+            <label class="btn btn-secondary" for="imageUpload">
+                <span>📷</span> From Image
+            </label>
+            <input type="file" id="imageUpload" accept="image/*" style="display: none;">
+            <button class="btn btn-secondary" id="saveBtn">
+                <span>💾</span> Save
+            </button>
+            <button class="btn btn-secondary" id="shareBtn">
+                <span>🔗</span> Share
+            </button>
+            <button class="btn btn-icon" id="moreBtn">⚙️</button>
+            <button class="btn btn-icon" id="themeToggle">🌙</button>
         </div>
-    </div>
+    </header>
 
-    <div class="palette-container" id="paletteContainer"></div>
+    <!-- Main Palette Display -->
+    <main class="palette-container" id="paletteContainer">
+        <!-- Colors will be injected here by JavaScript -->
+    </main>
 
-    <div class="sidebar" id="sidebar">
-        <h2>⚙️ Options</h2>
-        
-        <div class="sidebar-section">
-            <h3>Export Formats</h3>
-            <button class="btn export-btn" onclick="exportPalette('css')">Export as CSS</button>
-            <button class="btn export-btn" onclick="exportPalette('json')">Export as JSON</button>
-            <button class="btn export-btn" onclick="exportPalette('svg')">Export as SVG</button>
-        </div>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <button class="sidebar-close" id="closeSidebar">✕</button>
+        <h2>Advanced Options</h2>
 
-        <div class="sidebar-section">
-            <h3>Accessibility Check</h3>
+        <!-- Color Blindness Simulation -->
+        <section class="sidebar-section">
+            <h3>Color Blindness Simulation</h3>
+            <div class="button-group-vertical">
+                <button class="filter-btn" data-filter="none">Normal Vision</button>
+                <button class="filter-btn" data-filter="deuteranopia">Deuteranopia (Red-Green)</button>
+                <button class="filter-btn" data-filter="protanopia">Protanopia (Red-Green)</button>
+                <button class="filter-btn" data-filter="tritanopia">Tritanopia (Blue-Yellow)</button>
+                <button class="filter-btn" data-filter="grayscale">Grayscale</button>
+            </div>
+        </section>
+
+        <!-- Accessibility Check -->
+        <section class="sidebar-section">
+            <h3>Accessibility (WCAG)</h3>
             <div id="accessibilityResults"></div>
-        </div>
+        </section>
 
-        <div class="sidebar-section">
-            <h3>Saved Palettes</h3>
+        <!-- Export Options -->
+        <section class="sidebar-section">
+            <h3>Export Formats</h3>
+            <div class="button-group-vertical">
+                <button class="btn btn-secondary btn-block" data-export="css">CSS Variables</button>
+                <button class="btn btn-secondary btn-block" data-export="scss">SCSS Variables</button>
+                <button class="btn btn-secondary btn-block" data-export="json">JSON</button>
+                <button class="btn btn-secondary btn-block" data-export="svg">SVG</button>
+                <button class="btn btn-secondary btn-block" data-export="tailwind">Tailwind Config</button>
+                <button class="btn btn-secondary btn-block" data-export="ase">Adobe ASE</button>
+            </div>
+        </section>
+
+        <!-- Saved Palettes -->
+        <section class="sidebar-section">
+            <h3>Saved Palettes (<span id="savedCount">0</span>)</h3>
             <div class="saved-palettes" id="savedPalettes"></div>
-        </div>
-    </div>
+            <button class="btn btn-danger btn-block" id="clearAllBtn">Clear All</button>
+        </section>
+    </aside>
 
-    <div class="shortcuts">
-        <div class="shortcut-item"><span class="key">Space</span> Generate new palette</div>
-        <div class="shortcut-item"><span class="key">S</span> Save palette</div>
-        <div class="shortcut-item"><span class="key">E</span> Toggle export menu</div>
-        <div class="shortcut-item"><span class="key">Click</span> Copy color code</div>
-    </div>
-
-    <div class="notification" id="notification"></div>
-
-    <script>
-        // Color utilities
-        function hexToRgb(hex) {
-            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-            return result ? {
-                r: parseInt(result[1], 16),
-                g: parseInt(result[2], 16),
-                b: parseInt(result[3], 16)
-            } : null;
-        }
-
-        function rgbToHsl(r, g, b) {
-            r /= 255; g /= 255; b /= 255;
-            const max = Math.max(r, g, b), min = Math.min(r, g, b);
-            let h, s, l = (max + min) / 2;
-
-            if (max === min) {
-                h = s = 0;
-            } else {
-                const d = max - min;
-                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-                switch (max) {
-                    case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break;
-                    case g: h = ((b - r) / d + 2) / 6; break;
-                    case b: h = ((r - g) / d + 4) / 6; break;
-                }
-            }
-            return { h: h * 360, s: s * 100, l: l * 100 };
-        }
-
-        function hslToHex(h, s, l) {
-            l /= 100;
-            const a = s * Math.min(l, 1 - l) / 100;
-            const f = n => {
-                const k = (n + h / 30) % 12;
-                const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
-                return Math.round(255 * color).toString(16).padStart(2, '0');
-            };
-            return `#${f(0)}${f(8)}${f(4)}`;
-        }
-
-        function getContrastRatio(hex1, hex2) {
-            const rgb1 = hexToRgb(hex1);
-            const rgb2 = hexToRgb(hex2);
-            
-            const l1 = 0.2126 * Math.pow(rgb1.r / 255, 2.2) + 0.7152 * Math.pow(rgb1.g / 255, 2.2) + 0.0722 * Math.pow(rgb1.b / 255, 2.2);
-            const l2 = 0.2126 * Math.pow(rgb2.r / 255, 2.2) + 0.7152 * Math.pow(rgb2.g / 255, 2.2) + 0.0722 * Math.pow(rgb2.b / 255, 2.2);
-            
-            const lighter = Math.max(l1, l2);
-            const darker = Math.min(l1, l2);
-            
-            return (lighter + 0.05) / (darker + 0.05);
-        }
-
-        function getTextColor(hex) {
-            const rgb = hexToRgb(hex);
-            const brightness = (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000;
-            return brightness > 128 ? '#000000' : '#ffffff';
-        }
-
-        // Palette generation
-        function generateRandomColor() {
-            return '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
-        }
-
-        function generatePalette(mode, numColors = 5) {
-            const baseHue = Math.random() * 360;
-            const colors = [];
-
-            switch(mode) {
-                case 'monochromatic':
-                    for (let i = 0; i < numColors; i++) {
-                        const lightness = 20 + (i * 60 / numColors);
-                        colors.push(hslToHex(baseHue, 70, lightness));
-                    }
-                    break;
-                
-                case 'analogous':
-                    for (let i = 0; i < numColors; i++) {
-                        const hue = (baseHue + (i * 30) - 60) % 360;
-                        colors.push(hslToHex(hue, 65, 50 + Math.random() * 20));
-                    }
-                    break;
-                
-                case 'complementary':
-                    colors.push(hslToHex(baseHue, 70, 50));
-                    colors.push(hslToHex((baseHue + 180) % 360, 70, 50));
-                    for (let i = 2; i < numColors; i++) {
-                        colors.push(hslToHex(baseHue + (i - 1) * 30, 60, 60));
-                    }
-                    break;
-                
-                case 'triadic':
-                    for (let i = 0; i < numColors; i++) {
-                        const hue = (baseHue + i * 120) % 360;
-                        colors.push(hslToHex(hue, 65, 50 + Math.random() * 15));
-                    }
-                    break;
-                
-                case 'tetradic':
-                    const angles = [0, 90, 180, 270];
-                    for (let i = 0; i < numColors; i++) {
-                        const hue = (baseHue + angles[i % 4]) % 360;
-                        colors.push(hslToHex(hue, 65, 50 + Math.random() * 15));
-                    }
-                    break;
-                
-                default: // random
-                    for (let i = 0; i < numColors; i++) {
-                        colors.push(generateRandomColor());
-                    }
-            }
-
-            return colors;
-        }
-
-        // App state
-        let currentPalette = generatePalette('random');
-        let lockedColors = new Array(5).fill(false);
-
-        // UI Functions
-        function renderPalette() {
-            const container = document.getElementById('paletteContainer');
-            container.innerHTML = '';
-
-            currentPalette.forEach((color, index) => {
-                const column = document.createElement('div');
-                column.className = 'color-column';
-                column.style.backgroundColor = color;
-                
-                const rgb = hexToRgb(color);
-                const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
-                
-                column.innerHTML = `
-                    <button class="lock-btn ${lockedColors[index] ? 'locked' : ''}" onclick="toggleLock(${index})">
-                        ${lockedColors[index] ? '🔒' : '🔓'}
-                    </button>
-                    <div class="color-main">
-                        <div class="color-info" style="color: ${getTextColor(color)}">
-                            <div class="color-hex">${color.toUpperCase()}</div>
-                            <div class="color-formats">
-                                RGB(${rgb.r}, ${rgb.g}, ${rgb.b})<br>
-                                HSL(${Math.round(hsl.h)}°, ${Math.round(hsl.s)}%, ${Math.round(hsl.l)}%)
-                            </div>
+    <!-- Enhanced Color Picker Modal -->
+    <div class="modal" id="colorPickerModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2>🎨 Edit Color</h2>
+                <button class="modal-close" id="closeColorPicker">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="color-picker-layout">
+                    <!-- Preview -->
+                    <div class="picker-preview" id="pickerPreview"></div>
+                    
+                    <!-- HSL Controls -->
+                    <div class="picker-section">
+                        <h4>HSL Controls</h4>
+                        <div class="input-group">
+                            <label>
+                                <span>Hue</span>
+                                <span id="hueValue">0°</span>
+                            </label>
+                            <input type="range" id="hueSlider" min="0" max="360" value="0">
+                            <input type="number" id="hueInput" min="0" max="360" value="0" class="input-number">
+                        </div>
+                        <div class="input-group">
+                            <label>
+                                <span>Saturation</span>
+                                <span id="satValue">0%</span>
+                            </label>
+                            <input type="range" id="satSlider" min="0" max="100" value="0">
+                            <input type="number" id="satInput" min="0" max="100" value="0" class="input-number">
+                        </div>
+                        <div class="input-group">
+                            <label>
+                                <span>Lightness</span>
+                                <span id="lightValue">0%</span>
+                            </label>
+                            <input type="range" id="lightSlider" min="0" max="100" value="0">
+                            <input type="number" id="lightInput" min="0" max="100" value="0" class="input-number">
                         </div>
                     </div>
-                `;
 
-                column.addEventListener('click', (e) => {
-                    if (!e.target.classList.contains('lock-btn')) {
-                        copyToClipboard(color);
-                    }
-                });
-
-                container.appendChild(column);
-            });
-
-            updateAccessibilityCheck();
-        }
-
-        function toggleLock(index) {
-            lockedColors[index] = !lockedColors[index];
-            renderPalette();
-        }
-
-        function generate() {
-            const mode = document.getElementById('harmonyMode').value;
-            const newPalette = generatePalette(mode);
-            
-            currentPalette = currentPalette.map((color, index) => 
-                lockedColors[index] ? color : newPalette[index]
-            );
-            
-            renderPalette();
-        }
-
-        function savePalette() {
-            const saved = JSON.parse(localStorage.getItem('savedPalettes') || '[]');
-            saved.push(currentPalette);
-            localStorage.setItem('savedPalettes', JSON.stringify(saved));
-            loadSavedPalettes();
-            showNotification('Palette saved!');
-        }
-
-        function loadSavedPalettes() {
-            const saved = JSON.parse(localStorage.getItem('savedPalettes') || '[]');
-            const container = document.getElementById('savedPalettes');
-            
-            container.innerHTML = saved.length === 0 ? 
-                '<p style="color: var(--text-muted); font-size: 0.9rem;">No saved palettes yet</p>' : '';
-            
-            saved.reverse().slice(0, 10).forEach((palette, index) => {
-                const div = document.createElement('div');
-                div.className = 'saved-palette';
-                div.onclick = () => loadPalette(palette);
-                
-                palette.forEach(color => {
-                    const colorDiv = document.createElement('div');
-                    colorDiv.className = 'saved-palette-color';
-                    colorDiv.style.backgroundColor = color;
-                    div.appendChild(colorDiv);
-                });
-                
-                container.appendChild(div);
-            });
-        }
-
-        function loadPalette(palette) {
-            currentPalette = [...palette];
-            lockedColors = new Array(5).fill(false);
-            renderPalette();
-            showNotification('Palette loaded!');
-        }
-
-        function updateAccessibilityCheck() {
-            const container = document.getElementById('accessibilityResults');
-            container.innerHTML = '';
-
-            for (let i = 0; i < currentPalette.length - 1; i++) {
-                const ratio = getContrastRatio(currentPalette[i], currentPalette[i + 1]);
-                const wcagAA = ratio >= 4.5;
-                
-                const check = document.createElement('div');
-                check.className = 'accessibility-check';
-                check.innerHTML = `
-                    <div class="contrast-pair">
-                        <span>Color ${i + 1} vs ${i + 2}</span>
-                        <span class="contrast-ratio ${wcagAA ? 'pass' : 'fail'}">
-                            ${ratio.toFixed(2)}:1 ${wcagAA ? '✓' : '✗'}
-                        </span>
+                    <!-- RGB Controls -->
+                    <div class="picker-section">
+                        <h4>RGB Controls</h4>
+                        <div class="input-group">
+                            <label>
+                                <span>Red</span>
+                                <span id="redValue">0</span>
+                            </label>
+                            <input type="range" id="redSlider" min="0" max="255" value="0">
+                            <input type="number" id="redInput" min="0" max="255" value="0" class="input-number">
+                        </div>
+                        <div class="input-group">
+                            <label>
+                                <span>Green</span>
+                                <span id="greenValue">0</span>
+                            </label>
+                            <input type="range" id="greenSlider" min="0" max="255" value="0">
+                            <input type="number" id="greenInput" min="0" max="255" value="0" class="input-number">
+                        </div>
+                        <div class="input-group">
+                            <label>
+                                <span>Blue</span>
+                                <span id="blueValue">0</span>
+                            </label>
+                            <input type="range" id="blueSlider" min="0" max="255" value="0">
+                            <input type="number" id="blueInput" min="0" max="255" value="0" class="input-number">
+                        </div>
                     </div>
-                `;
-                container.appendChild(check);
-            }
-        }
 
-        function exportPalette(format) {
-            let content = '';
-            let filename = `palette-${Date.now()}`;
+                    <!-- Hex Input -->
+                    <div class="picker-section">
+                        <h4>Hex Code</h4>
+                        <div class="input-group">
+                            <input type="text" id="hexInput" placeholder="#000000" class="input-text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="applyColorBtn">Apply</button>
+                <button class="btn btn-secondary" id="cancelColorBtn">Cancel</button>
+            </div>
+        </div>
+    </div>
 
-            switch(format) {
-                case 'css':
-                    content = ':root {\n';
-                    currentPalette.forEach((color, i) => {
-                        content += `  --color-${i + 1}: ${color};\n`;
-                    });
-                    content += '}';
-                    filename += '.css';
-                    break;
+    <!-- Share Modal -->
+    <div class="modal" id="shareModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🔗 Share Palette</h2>
+                <button class="modal-close" id="closeShareModal">✕</button>
+            </div>
+            <div class="modal-body">
+                <p class="text-muted">Share this URL with others:</p>
+                <div class="input-group-inline">
+                    <input type="text" id="shareUrlInput" readonly class="input-text">
+                    <button class="btn btn-primary" id="copyShareBtn">Copy</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                case 'json':
-                    content = JSON.stringify({
-                        palette: currentPalette,
-                        created: new Date().toISOString()
-                    }, null, 2);
-                    filename += '.json';
-                    break;
+    <!-- Notification Toast -->
+    <div class="notification" id="notification"></div>
 
-                case 'svg':
-                    content = `<svg width="${currentPalette.length * 100}" height="100" xmlns="http://www.w3.org/2000/svg">`;
-                    currentPalette.forEach((color, i) => {
-                        content += `<rect x="${i * 100}" width="100" height="100" fill="${color}"/>`;
-                    });
-                    content += '</svg>';
-                    filename += '.svg';
-                    break;
-            }
+    <!-- Keyboard Shortcuts Help -->
+    <div class="shortcuts" id="shortcuts">
+        <div class="shortcuts-header">Keyboard Shortcuts</div>
+        <div class="shortcut-item">
+            <kbd>Space</kbd>
+            <span>Generate</span>
+        </div>
+        <div class="shortcut-item">
+            <kbd>S</kbd>
+            <span>Save</span>
+        </div>
+        <div class="shortcut-item">
+            <kbd>E</kbd>
+            <span>Export</span>
+        </div>
+        <div class="shortcut-item">
+            <kbd>Ctrl+Z</kbd>
+            <span>Undo</span>
+        </div>
+        <div class="shortcut-item">
+            <kbd>T</kbd>
+            <span>Theme</span>
+        </div>
+    </div>
 
-            const blob = new Blob([content], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = filename;
-            a.click();
-            URL.revokeObjectURL(url);
-            
-            showNotification(`Exported as ${format.toUpperCase()}!`);
-        }
-
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                showNotification(`Copied ${text}`);
-            });
-        }
-
-        function showNotification(message) {
-            const notif = document.getElementById('notification');
-            notif.textContent = message;
-            notif.classList.add('show');
-            setTimeout(() => notif.classList.remove('show'), 2000);
-        }
-
-        // Event listeners
-        document.getElementById('generateBtn').addEventListener('click', generate);
-        document.getElementById('saveBtn').addEventListener('click', savePalette);
-        document.getElementById('exportBtn').addEventListener('click', () => {
-            document.getElementById('sidebar').classList.toggle('open');
-        });
-
-        // Keyboard shortcuts
-        document.addEventListener('keydown', (e) => {
-            if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
-            
-            switch(e.key.toLowerCase()) {
-                case ' ':
-                    e.preventDefault();
-                    generate();
-                    break;
-                case 's':
-                    savePalette();
-                    break;
-                case 'e':
-                    document.getElementById('sidebar').classList.toggle('open');
-                    break;
-            }
-        });
-
-        // Initialize
-        renderPalette();
-        loadSavedPalettes();
-    </script>
+    <!-- Scripts -->
+    <script src="js/utils/colorUtils.js"></script>
+    <script src="js/utils/storage.js"></script>
+    <script src="js/components/colorPicker.js"></script>
+    <script src="js/components/palette.js"></script>
+    <script src="js/components/export.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>

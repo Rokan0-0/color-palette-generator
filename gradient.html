@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gradient Generator - Palette Pro</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/themes.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <h1 class="logo">🎨 Palette Pro</h1>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Palette</a>
+                <a href="gradient.html" class="nav-link active">Gradient</a>
+                <a href="settings.html" class="nav-link">Settings</a>
+            </nav>
+        </div>
+        <div class="controls">
+            <select id="gradientType" class="select">
+                <option value="linear">Linear</option>
+                <option value="radial">Radial</option>
+                <option value="conic">Conic</option>
+            </select>
+            <button class="btn btn-primary" id="randomGradientBtn">
+                <span>🎲</span> Random
+            </button>
+            <button class="btn btn-secondary" id="addColorBtn">
+                <span>➕</span> Add Color
+            </button>
+            <button class="btn btn-secondary" id="saveGradientBtn">
+                <span>💾</span> Save
+            </button>
+            <button class="btn btn-secondary" id="exportGradientBtn">
+                <span>📥</span> Export
+            </button>
+            <button class="btn btn-icon" id="themeToggle">🌙</button>
+        </div>
+    </header>
+
+    <!-- Main Gradient Display -->
+    <main class="gradient-main">
+        <div class="gradient-preview" id="gradientPreview"></div>
+        
+        <!-- Gradient Controls -->
+        <div class="gradient-controls">
+            <div class="control-panel">
+                <h3>Gradient Settings</h3>
+                
+                <!-- Angle Control (for linear) -->
+                <div class="control-group" id="angleControl">
+                    <label>
+                        <span>Angle</span>
+                        <span id="angleValue">90°</span>
+                    </label>
+                    <input type="range" id="angleSlider" min="0" max="360" value="90">
+                </div>
+
+                <!-- Position Control (for radial) -->
+                <div class="control-group hidden" id="positionControl">
+                    <label>Position</label>
+                    <select id="positionSelect" class="select">
+                        <option value="center">Center</option>
+                        <option value="top">Top</option>
+                        <option value="bottom">Bottom</option>
+                        <option value="left">Left</option>
+                        <option value="right">Right</option>
+                        <option value="top left">Top Left</option>
+                        <option value="top right">Top Right</option>
+                        <option value="bottom left">Bottom Left</option>
+                        <option value="bottom right">Bottom Right</option>
+                    </select>
+                </div>
+
+                <!-- Color Stops -->
+                <div class="control-group">
+                    <label>Color Stops</label>
+                    <div class="color-stops" id="colorStops">
+                        <!-- Color stops will be added here -->
+                    </div>
+                </div>
+
+                <!-- CSS Output -->
+                <div class="control-group">
+                    <label>CSS Code</label>
+                    <div class="code-output">
+                        <pre id="cssOutput"></pre>
+                        <button class="btn btn-secondary btn-sm" id="copyCssBtn">Copy</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Saved Gradients Sidebar -->
+    <aside class="sidebar" id="gradientSidebar">
+        <button class="sidebar-close" id="closeSidebar">✕</button>
+        <h2>Saved Gradients</h2>
+        
+        <section class="sidebar-section">
+            <div class="saved-gradients" id="savedGradients"></div>
+            <button class="btn btn-danger btn-block" id="clearGradientsBtn">Clear All</button>
+        </section>
+
+        <section class="sidebar-section">
+            <h3>Gradient Presets</h3>
+            <div class="gradient-presets" id="gradientPresets"></div>
+        </section>
+    </aside>
+
+    <!-- Color Picker for Gradient Stops -->
+    <div class="modal" id="stopColorPicker">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Color Stop</h2>
+                <button class="modal-close" id="closeStopPicker">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="picker-preview-small" id="stopPreview"></div>
+                <div class="input-group">
+                    <label>Color</label>
+                    <input type="text" id="stopHexInput" placeholder="#000000" class="input-text">
+                </div>
+                <div class="input-group">
+                    <label>
+                        <span>Position</span>
+                        <span id="stopPositionValue">0%</span>
+                    </label>
+                    <input type="range" id="stopPositionSlider" min="0" max="100" value="0">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" id="deleteStopBtn">Delete</button>
+                <button class="btn btn-primary" id="applyStopBtn">Apply</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <!-- Scripts -->
+    <script src="js/utils/colorUtils.js"></script>
+    <script src="js/utils/storage.js"></script>
+    <script src="js/gradient.js"></script>
+</body>
+</html>
