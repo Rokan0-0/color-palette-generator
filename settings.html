@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Palette Pro</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/themes.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <h1 class="logo">🎨 Palette Pro</h1>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Palette</a>
+                <a href="gradient.html" class="nav-link">Gradient</a>
+                <a href="settings.html" class="nav-link active">Settings</a>
+            </nav>
+        </div>
+        <div class="controls">
+            <button class="btn btn-icon" id="themeToggle">🌙</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main style="padding: 2rem; max-width: 900px; margin: 0 auto;">
+        <h1 style="margin-bottom: 2rem; font-size: 2rem;">⚙️ Settings</h1>
+
+        <!-- Appearance Section -->
+        <section class="sidebar-section">
+            <h3>🎨 Appearance</h3>
+            <div class="button-group-vertical">
+                <button class="btn btn-secondary btn-block" id="toggleThemeBtn">
+                    <span>🌓</span> Toggle Dark/Light Mode
+                </button>
+            </div>
+            <p class="text-muted" style="margin-top: 1rem;">
+                Current theme: <strong id="currentTheme">Dark</strong>
+            </p>
+        </section>
+
+        <!-- Data Management Section -->
+        <section class="sidebar-section">
+            <h3>💾 Data Management</h3>
+            <p class="text-muted">
+                Manage your saved palettes and gradients stored in your browser.
+            </p>
+            
+            <div style="display: grid; gap: 1rem; margin-top: 1rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: var(--bg-secondary); border-radius: var(--radius-md);">
+                    <div>
+                        <strong>Saved Palettes</strong><br>
+                        <span class="text-muted" id="paletteCount">0 palettes</span>
+                    </div>
+                    <button class="btn btn-danger" id="clearPalettesBtn">Clear</button>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: var(--bg-secondary); border-radius: var(--radius-md);">
+                    <div>
+                        <strong>Saved Gradients</strong><br>
+                        <span class="text-muted" id="gradientCount">0 gradients</span>
+                    </div>
+                    <button class="btn btn-danger" id="clearGradientsBtn">Clear</button>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: var(--bg-secondary); border-radius: var(--radius-md);">
+                    <div>
+                        <strong>All Data</strong><br>
+                        <span class="text-muted">Clear everything</span>
+                    </div>
+                    <button class="btn btn-danger" id="clearAllDataBtn">Clear All</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Keyboard Shortcuts Section -->
+        <section class="sidebar-section">
+            <h3>⌨️ Keyboard Shortcuts</h3>
+            <div style="display: grid; gap: 0.5rem;">
+                <div style="display: flex; justify-content: space-between; padding: 0.5rem; background: var(--bg-secondary); border-radius: var(--radius-sm);">
+                    <span>Generate new palette</span>
+                    <kbd>Space</kbd>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.5rem; background: var(--bg-secondary); border-radius: var(--radius-sm);">
+                    <span>Save current palette</span>
+                    <kbd>S</kbd>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.5rem; background: var(--bg-secondary); border-radius: var(--radius-sm);">
+                    <span>Toggle export menu</span>
+                    <kbd>E</kbd>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.5rem; background: var(--bg-secondary); border-radius: var(--radius-sm);">
+                    <span>Undo last change</span>
+                    <kbd>Ctrl+Z</kbd>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.5rem; background: var(--bg-secondary); border-radius: var(--radius-sm);">
+                    <span>Toggle theme</span>
+                    <kbd>T</kbd>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.5rem; background: var(--bg-secondary); border-radius: var(--radius-sm);">
+                    <span>Close modals</span>
+                    <kbd>Escape</kbd>
+                </div>
+            </div>
+        </section>
+
+        <!-- Export Formats Section -->
+        <section class="sidebar-section">
+            <h3>📥 Supported Export Formats</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
+                <div style="padding: 1rem; background: var(--bg-secondary); border-radius: var(--radius-md); text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">📄</div>
+                    <strong>CSS</strong><br>
+                    <span class="text-muted" style="font-size: 0.85rem;">Variables</span>
+                </div>
+                <div style="padding: 1rem; background: var(--bg-secondary); border-radius: var(--radius-md); text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">📄</div>
+                    <strong>SCSS</strong><br>
+                    <span class="text-muted" style="font-size: 0.85rem;">Variables</span>
+                </div>
+                <div style="padding: 1rem; background: var(--bg-secondary); border-radius: var(--radius-md); text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">📊</div>
+                    <strong>JSON</strong><br>
+                    <span class="text-muted" style="font-size: 0.85rem;">Data</span>
+                </div>
+                <div style="padding: 1rem; background: var(--bg-secondary); border-radius: var(--radius-md); text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">🖼️</div>
+                    <strong>SVG</strong><br>
+                    <span class="text-muted" style="font-size: 0.85rem;">Vector</span>
+                </div>
+                <div style="padding: 1rem; background: var(--bg-secondary); border-radius: var(--radius-md); text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">🎨</div>
+                    <strong>Tailwind</strong><br>
+                    <span class="text-muted" style="font-size: 0.85rem;">Config</span>
+                </div>
+                <div style="padding: 1rem; background: var(--bg-secondary); border-radius: var(--radius-md); text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">🎨</div>
+                    <strong>Adobe ASE</strong><br>
+                    <span class="text-muted" style="font-size: 0.85rem;">Swatch</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="sidebar-section">
+            <h3>ℹ️ About</h3>
+            <div style="padding: 1.5rem; background: var(--bg-secondary); border-radius: var(--radius-md);">
+                <h2 style="margin-bottom: 1rem; font-size: 1.5rem;">Color Palette Generator Pro</h2>
+                <p style="margin-bottom: 1rem; color: var(--text-secondary);">Version 2.0.0</p>
+                
+                <p style="margin-bottom: 1.5rem; line-height: 1.6;">
+                    A professional-grade color palette generator designed for designers and developers. 
+                    Create, customize, and export beautiful color schemes with advanced features.
+                </p>
+
+                <h4 style="margin-bottom: 0.5rem; color: var(--accent-primary);">✨ Key Features</h4>
+                <ul style="list-style: none; padding: 0; line-height: 2;">
+                    <li>🎲 6 Color Harmony Modes</li>
+                    <li>📷 Image Color Extraction</li>
+                    <li>👁️ Color Blindness Simulation</li>
+                    <li>♿ WCAG Accessibility Checker</li>
+                    <li>🌈 Advanced Gradient Generator</li>
+                    <li>🎨 HSL & RGB Color Picker</li>
+                    <li>💾 Unlimited Cloud-Free Storage</li>
+                    <li>🔗 Share Palettes via URL</li>
+                    <li>📥 6 Export Formats</li>
+                    <li>🌓 Dark/Light Mode</li>
+                    <li>⌨️ Keyboard Shortcuts</li>
+                    <li>📱 Fully Responsive</li>
+                </ul>
+
+                <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">
+                        Built with ❤️ using vanilla HTML, CSS, and JavaScript<br>
+                        No external dependencies • No data collection • Open source
+                    </p>
+                </div>
+
+                <div style="margin-top: 1.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <a href="https://github.com/yourusername/color-palette-generator-pro" target="_blank" class="btn btn-secondary">
+                        📦 GitHub
+                    </a>
+                    <a href="https://github.com/yourusername/color-palette-generator-pro/issues" target="_blank" class="btn btn-secondary">
+                        🐛 Report Bug
+                    </a>
+                    <a href="https://github.com/yourusername/color-palette-generator-pro#readme" target="_blank" class="btn btn-secondary">
+                        📖 Documentation
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Credits Section -->
+        <section class="sidebar-section" style="border-bottom: none;">
+            <h3>👏 Credits & License</h3>
+            <p class="text-muted" style="line-height: 1.8;">
+                Created by <strong>Your Name</strong><br>
+                Licensed under the <strong>MIT License</strong><br>
+                <br>
+                Special thanks to the design community and all contributors who make this project possible.
+            </p>
+        </section>
+    </main>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <!-- Scripts -->
+    <script src="js/utils/colorUtils.js"></script>
+    <script src="js/utils/storage.js"></script>
+    <script>
+        function initTheme() {
+            const theme = Storage.getTheme();
+            if (theme === 'light') {
+                document.body.classList.add('light-mode');
+                document.getElementById('themeToggle').textContent = '☀️';
+                document.getElementById('currentTheme').textContent = 'Light';
+            } else {
+                document.getElementById('currentTheme').textContent = 'Dark';
+            }
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+            const isLight = document.body.classList.contains('light-mode');
+            document.getElementById('themeToggle').textContent = isLight ? '☀️' : '🌙';
+            document.getElementById('currentTheme').textContent = isLight ? 'Light' : 'Dark';
+            Storage.saveTheme(isLight ? 'light' : 'dark');
+            showNotification('Theme changed!');
+        }
+
+        function showNotification(message) {
+            const notif = document.getElementById('notification');
+            notif.textContent = message;
+            notif.classList.add('show');
+            setTimeout(() => notif.classList.remove('show'), 2000);
+        }
+
+        function updateCounts() {
+            const palettes = Storage.getSavedPalettes();
+            const gradients = Storage.getSavedGradients();
+            
+            document.getElementById('paletteCount').textContent = `${palettes.length} palette${palettes.length !== 1 ? 's' : ''}`;
+            document.getElementById('gradientCount').textContent = `${gradients.length} gradient${gradients.length !== 1 ? 's' : ''}`;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            updateCounts();
+
+            document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+            document.getElementById('toggleThemeBtn').addEventListener('click', toggleTheme);
+
+            document.getElementById('clearPalettesBtn').addEventListener('click', () => {
+                if (confirm('Delete all saved palettes? This cannot be undone.')) {
+                    Storage.clearAllPalettes();
+                    updateCounts();
+                    showNotification('All palettes cleared!');
+                }
+            });
+
+            document.getElementById('clearGradientsBtn').addEventListener('click', () => {
+                if (confirm('Delete all saved gradients? This cannot be undone.')) {
+                    Storage.clearAllGradients();
+                    updateCounts();
+                    showNotification('All gradients cleared!');
+                }
+            });
+
+            document.getElementById('clearAllDataBtn').addEventListener('click', () => {
+                if (confirm('Delete ALL data including settings? This cannot be undone.')) {
+                    localStorage.clear();
+                    updateCounts();
+                    showNotification('All data cleared!');
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
