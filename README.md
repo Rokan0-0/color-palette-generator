@@ -315,8 +315,8 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 
 ## 📧 Contact & Support
 
-- 📧 **Email**: your.email@example.com
-- 🐦 **Twitter**: [@yourhandle](https://twitter.com/yourhandle)
+- 📧 **Email**: dporteiru@gmail.com
+- 🐦 **Twitter**: [https://x.com/DamilolaPorter](https://twitter.com/yourhandle)
 - 💬 **Discord**: [Join Server](#)
 - 🐛 **Issues**: [GitHub Issues](https://github.com/yourusername/color-palette-generator-pro/issues)
 
@@ -352,14 +352,14 @@ If you like this project:
 - 💡 **Suggest features**
 - 🔀 **Submit pull requests**
 - 📢 **Share with others**
-- ☕ [Buy me a coffee](https://buymeacoffee.com/yourhandle)
+- ☕ [https://buymeacoffee.com/rokan](https://buymeacoffee.com/yourhandle)
 
 ---
 
 <div align="center">
   <strong>Built with ❤️ for the design community</strong>
   <br>
-  <sub>Made by <a href="https://github.com/yourusername">Your Name</a></sub>
+  <sub>Made by <a href="https://github.com/Rokan0-0">Rokan</a></sub>
 </div>
 
 ---
